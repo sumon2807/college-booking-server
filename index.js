@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.CB_USER}:${process.env.CB_PASSWORD}@cluster0.xj518fd.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -32,6 +32,16 @@ async function run() {
     app.get('/colleges', async(req, res)=>{
         const result=await collegeCollection.find().toArray();
         res.send(result);
+    })
+
+    app.get('/colleges/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const options = {
+        projection: { college_image: 1, college_name: 1, college_rating: 1, description: 1, event: 1, event_details: 1, college_rating:1 }
+      }
+      const result= await collegeCollection.findOne(query, options)
+      res.send(result);
     })
 
 
