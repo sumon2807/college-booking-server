@@ -38,7 +38,7 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const options = {
-        projection: { college_image: 1, college_name: 1, college_rating: 1, description: 1, event: 1, event_details: 1, college_rating:1 }
+        projection: { college_image: 1, college_name: 1, college_rating: 1, description: 1, event: 1, event_details: 1, college_rating: 1, sports: 1 }
       }
       const result= await collegeCollection.findOne(query, options)
       res.send(result);
